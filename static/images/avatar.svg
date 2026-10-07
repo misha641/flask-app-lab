@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+  <title>Нейтральний аватар-заглушка</title>
+  <circle cx="160" cy="160" r="144" fill="#d9e4de"/>
+  <circle cx="160" cy="124" r="49" fill="#789287"/>
+  <path d="M67 268c0-56 37-94 93-94s93 38 93 94" fill="#789287"/>
+  <circle cx="160" cy="160" r="144" fill="none" stroke="#c4d5cb" stroke-width="2"/>
+</svg>
