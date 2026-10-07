@@ -1,0 +1,34 @@
+<header class="site-header">
+    <nav class="navbar navbar-expand-lg container" aria-label="Головна навігація">
+        <a class="navbar-brand brand" href="{{ url_for('main') }}">
+            <span class="brand-mark" aria-hidden="true">МВ</span>
+            <span>Михайло<br>Венгринович</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#site-menu" aria-controls="site-menu"
+                aria-expanded="false" aria-label="Відкрити або закрити меню">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="site-menu">
+            <div class="menu-content ms-lg-auto">
+                <ul class="navbar-nav page-links">
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'main' %} active{% endif %}"
+                           href="{{ url_for('main') }}"{% if request.endpoint == 'main' %} aria-current="page"{% endif %}>Резюме</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'contacts' %} active{% endif %}"
+                           href="{{ url_for('contacts') }}"{% if request.endpoint == 'contacts' %} aria-current="page"{% endif %}>Контакти</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav section-links" aria-label="Секції резюме">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main', _anchor='about') }}">Про себе</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main', _anchor='education') }}">Освіта</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main', _anchor='skills') }}">Навички</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main', _anchor='technologies') }}">Технології</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main', _anchor='projects') }}">Проєкти</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

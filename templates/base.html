@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Резюме та контакти Михайла Венгриновича, студента інженерії програмного забезпечення.">
+    <title>{% block title %}{{ title }} · Михайло Венгринович{% endblock %}</title>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Перейти до вмісту</a>
+    {% include 'components/navigation.html' %}
+
+    <main id="main-content" class="container page-content" tabindex="-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'components/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-intro">
+    <p class="eyebrow">Особиста сторінка · Зв’язок</p>
+    <h1>{{ title }}</h1>
+    <p class="intro-description">Контактні дані та демонстраційна форма повідомлення.</p>
+</div>
+
+<div class="row g-4 g-lg-5 contact-layout">
+    <div class="col-lg-5">
+        <section class="contact-card" aria-labelledby="contact-details-title">
+            <p class="eyebrow">Контактний блок</p>
+            <h2 id="contact-details-title">Михайло Венгринович</h2>
+            <p class="muted">Студент спеціальності «Інженерія програмного забезпечення».</p>
+            <dl class="contact-details">
+                <div><dt>Email</dt><dd>Додати контакт</dd></div>
+                <div><dt>Телефон</dt><dd>Додати контакт</dd></div>
+            </dl>
+            <a class="text-link" href="{{ url_for('main', _anchor='about') }}">Детальніше про мене <span aria-hidden="true">↗</span></a>
+        </section>
+    </div>
+    <div class="col-lg-7">
+        <section class="form-card" aria-labelledby="contact-form-title">
+            <p class="eyebrow">Форма-заглушка</p>
+            <h2 id="contact-form-title">Залишити повідомлення</h2>
+            <p class="muted" id="form-description">Надсилання поки не реалізоване. Введені дані не надсилаються та не зберігаються.</p>
+
+            {% if form_submitted %}
+            <div class="alert alert-info" role="status">
+                Надсилання поки не реалізоване. Повідомлення не надіслано, дані не збережено.
+            </div>
+            {% endif %}
+
+            <form action="{{ url_for('contacts') }}" method="post" aria-describedby="form-description">
+                {# Поля без name: браузер не включає введені значення в POST. #}
+                <div class="mb-3">
+                    <label class="form-label" for="contact-name">Ім’я</label>
+                    <input class="form-control" id="contact-name" type="text" placeholder="Ваше ім’я" autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="contact-email">Email</label>
+                    <input class="form-control" id="contact-email" type="email" placeholder="Ваш email" autocomplete="off">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label" for="contact-message">Повідомлення</label>
+                    <textarea class="form-control" id="contact-message" rows="5" placeholder="Текст повідомлення"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Перевірити форму <span aria-hidden="true">↗</span></button>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero row align-items-center g-5">
+    <div class="col-md-8">
+        <p class="eyebrow">Особиста сторінка · Студент</p>
+        <h1>{{ title }}</h1>
+        <p class="hero-name">Михайло<br>Венгринович<span class="accent-dot">.</span></p>
+        <p class="hero-description">Інженерія програмного забезпечення.<br>Інтерес до QA, AI та автоматизації.</p>
+        <a class="btn btn-primary" href="{{ url_for('contacts') }}">Перейти до контактів <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="col-md-4">
+        <div class="avatar-card">
+            <p class="avatar-caption mb-0">Михайло Венгринович</p>
+        </div>
+    </div>
+</div>
+
+<div class="resume-sections">
+    <section id="about" class="resume-section" aria-labelledby="about-title">
+        <div class="section-heading"><span class="section-number" aria-hidden="true">01</span><h2 id="about-title">Про себе</h2></div>
+        <div class="section-body">
+            <p class="mb-0">Я Михайло Венгринович, студент спеціальності «Інженерія програмного забезпечення». Цікавлюся забезпеченням якості програмного забезпечення (QA), штучним інтелектом (AI) та автоматизацією. Ця сторінка представляє мої навчальні інтереси та проєкт.</p>
+        </div>
+    </section>
+
+    <section id="education" class="resume-section" aria-labelledby="education-title">
+        <div class="section-heading"><span class="section-number" aria-hidden="true">02</span><h2 id="education-title">Освіта</h2></div>
+        <div class="section-body">
+            <p class="eyebrow">Навчаюся зараз</p>
+            <h3>Карпатський національний університет імені Василя Стефаника</h3>
+            <p class="mb-0">Спеціальність — «Інженерія програмного забезпечення».</p>
+        </div>
+    </section>
+
+    <section id="skills" class="resume-section" aria-labelledby="skills-title">
+        <div class="section-heading"><span class="section-number" aria-hidden="true">03</span><h2 id="skills-title">Навички</h2></div>
+        <div class="section-body">
+            <h3>Навчальна практика</h3>
+            <ul class="detail-list">
+                <li>Створення найпростішого вебзастосунку на Flask.</li>
+                <li>Робота з маршрутами та HTML-шаблонами в цій лабораторній.</li>
+                <li>Публікація навчального застосунку на Render.</li>
+            </ul>
+            <p class="muted mb-0">Навички представлені через навчальні завдання; рівень володіння не оцінюється.</p>
+        </div>
+    </section>
+
+    <section id="technologies" class="resume-section" aria-labelledby="technologies-title">
+        <div class="section-heading"><span class="section-number" aria-hidden="true">04</span><h2 id="technologies-title">Технології</h2></div>
+        <div class="section-body">
+            <p>Технології цього навчального сайту:</p>
+            <ul class="technology-list" aria-label="Використані технології">
+                <li>Python</li><li>Flask</li><li>Jinja2</li><li>HTML</li><li>CSS</li><li>Bootstrap 5</li>
+            </ul>
+            <p class="muted mb-0">Render — платформа публікації навчального застосунку.</p>
+        </div>
+    </section>
+
+    <section id="projects" class="resume-section" aria-labelledby="projects-title">
+        <div class="section-heading"><span class="section-number" aria-hidden="true">05</span><h2 id="projects-title">Проєкти</h2></div>
+        <div class="section-body">
+            <article class="project-card">
+                <p class="eyebrow">Навчальний проєкт</p>
+                <h3>Найпростіший Flask-застосунок</h3>
+                <p>Невеликий вебзастосунок, опублікований на Render. У лабораторній №2 він доповнений сторінками резюме й контактів, спільним шаблоном і статичними ресурсами.</p>
+                <span class="project-label">Python / Flask / Render</span>
+            </article>
+        </div>
+    </section>
+</div>
+{% endblock %}
