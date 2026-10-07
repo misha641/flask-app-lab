@@ -32,7 +32,7 @@
             </div>
             {% endif %}
 
-            <form action="{{ url_for('contacts') }}" method="post" aria-describedby="form-description">
+            <form action="{{ url_for('contacts') }}" method="post" novalidate aria-describedby="form-description">
                 {# Поля без name: браузер не включає введені значення в POST. #}
                 <div class="mb-3">
                     <label class="form-label" for="contact-name">Ім’я</label>

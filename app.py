@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def main():
     return render_template('resume.html', title='Резюме')
@@ -15,6 +16,7 @@ def contacts():
         title='Контакти',
         form_submitted=request.method == 'POST',
     )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
