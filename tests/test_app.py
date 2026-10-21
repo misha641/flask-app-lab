@@ -1,4 +1,4 @@
-"""Перевірки лабораторної №2 без додаткових бібліотек."""
+"""Перевірки спільного застосунку та збереженої поведінки лабораторної №2."""
 
 import unittest
 from html.parser import HTMLParser
@@ -24,10 +24,13 @@ class PageParser(HTMLParser):
 
 class AppTests(unittest.TestCase):
     def setUp(self):
+        previous_testing = app.config['TESTING']
+        app.config['TESTING'] = True
+        self.addCleanup(app.config.update, TESTING=previous_testing)
         self.client = app.test_client()
 
     def test_pages_and_shared_layout(self):
-        for path, title in [('/', 'Резюме'), ('/contacts', 'Контакти')]:
+        for path, title in [('/', 'Резюме'), ('/contacts', 'Контакти'), ('/homepage', 'Головна')]:
             with self.subTest(path=path):
                 response = self.client.get(path)
                 self.assertEqual(response.status_code, 200)
@@ -54,6 +57,7 @@ class AppTests(unittest.TestCase):
         resources = [
             ('/static/css/styles.css', 'text/css'),
             ('/static/images/avatar.svg', 'image/svg+xml'),
+            ('/static/images/images.jpg', 'image/jpeg'),
         ]
         for path, mimetype in resources:
             with self.subTest(path=path):
@@ -103,6 +107,28 @@ class AppTests(unittest.TestCase):
                 self.assertTrue(any(attrs.get('id') == target for _, attrs in page.tags))
                 self.assertIn('bootstrap@5.3.8/dist/css/bootstrap.min.css', html)
                 self.assertIn('bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js', html)
+
+    def test_homepage_user_agent(self):
+        agent = 'Lab3Browser/1.0 <script>alert(1)</script>'
+        response = self.client.get('/homepage', headers={'User-Agent': agent})
+        self.assertEqual(response.status_code, 200)
+        html = response.get_data(as_text=True)
+        self.assertIn('Lab3Browser/1.0 &lt;script&gt;alert(1)&lt;/script&gt;', html)
+        self.assertNotIn('<script>alert(1)</script>', html)
+
+    def test_navigation_on_all_pages(self):
+        paths = ['/', '/contacts', '/homepage', '/users/hi/John?age=30',
+                 '/products/', '/products/1', '/products/2', '/products/3']
+        expected = {'/', '/contacts', '/homepage', '/users/hi/John?age=30', '/products/'}
+        expected.update(f'/#{section}' for section in ['about', 'education', 'skills', 'technologies', 'projects'])
+        for path in paths:
+            with self.subTest(path=path):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 200)
+                html = response.get_data(as_text=True)
+                links = {link.get('href') for link in PageParser(html).elements('a')}
+                self.assertTrue(expected.issubset(links))
+                self.assertIn('/static/css/styles.css', html)
 
 
 if __name__ == '__main__':
