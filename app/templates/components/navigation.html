@@ -13,12 +13,24 @@
             <div class="menu-content ms-lg-auto">
                 <ul class="navbar-nav page-links">
                     <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'home' %} active{% endif %}"
+                           href="{{ url_for('home') }}"{% if request.endpoint == 'home' %} aria-current="page"{% endif %}>Головна</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link{% if request.endpoint == 'main' %} active{% endif %}"
                            href="{{ url_for('main') }}"{% if request.endpoint == 'main' %} aria-current="page"{% endif %}>Резюме</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{% if request.endpoint == 'contacts' %} active{% endif %}"
                            href="{{ url_for('contacts') }}"{% if request.endpoint == 'contacts' %} aria-current="page"{% endif %}>Контакти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.blueprint == 'users' %} active{% endif %}"
+                           href="{{ url_for('users.greetings', name='John', age=30) }}"{% if request.blueprint == 'users' %} aria-current="page"{% endif %}>Привітання</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.blueprint == 'products' %} active{% endif %}"
+                           href="{{ url_for('products.index') }}"{% if request.blueprint == 'products' %} aria-current="page"{% endif %}>Товари</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav section-links" aria-label="Секції резюме">
