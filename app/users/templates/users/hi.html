@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-intro">
+    <p class="eyebrow">Особиста сторінка · Користувачі</p>
+    <h1>{{ title }}</h1>
+</div>
+<div class="row g-4">
+    <div class="col-md-4 col-lg-3">
+        <nav class="greeting-menu" aria-label="Меню привітання">
+            <ul>
+                <li><a href="{{ url_for('users.greetings', name='John', age=30) }}">Привітати John</a></li>
+                <li><a href="{{ url_for('users.admin') }}">Адміністратор</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-8 col-lg-9">
+        <div class="project-card">
+            <h2>Привіт, {{ name }}!</h2>
+            {% if age is not none %}
+            <p class="mb-0">Вік: {{ age }}</p>
+            {% else %}
+            <p class="muted mb-0">Вік не вказано.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
