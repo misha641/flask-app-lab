@@ -9,7 +9,7 @@
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
+<body {% block body_attributes %}{% endblock %}>
     <a class="skip-link" href="#main-content">Перейти до вмісту</a>
     {% include 'components/navigation.html' %}
 

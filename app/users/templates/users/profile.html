@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block body_attributes %}class="profile-page{% if theme == 'dark' %} profile-dark{% endif %}" data-bs-theme="{{ theme }}"{% endblock %}
+
 {% block content %}
 <div class="page-intro">
     <p class="eyebrow">Особиста сторінка · Користувачі</p>
@@ -9,4 +11,72 @@
         <button class="btn btn-outline-danger" type="submit">Вийти</button>
     </form>
 </div>
+
+<section class="form-card mb-4" aria-labelledby="theme-title">
+    <h2 id="theme-title">Тема профілю</h2>
+    <form class="d-flex flex-wrap gap-2" method="post" action="{{ url_for('users.change_theme') }}">
+        <button class="btn btn-outline-secondary" name="theme" value="light" aria-pressed="{{ 'true' if theme == 'light' else 'false' }}">Світла</button>
+        <button class="btn btn-outline-secondary" name="theme" value="dark" aria-pressed="{{ 'true' if theme == 'dark' else 'false' }}">Темна</button>
+    </form>
+</section>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <section class="form-card h-100" aria-labelledby="add-cookie-title">
+            <h2 id="add-cookie-title">Додати cookie</h2>
+            <p class="muted" id="cookie-key-help">До ключа додається префікс lab4_: наприклад, note → lab4_note. Дозволено 1–40 латинських літер, цифр, дефісів і підкреслень. Сесія та тема захищені від перезапису.</p>
+            <form method="post" action="{{ url_for('users.add_cookie') }}">
+                <div class="mb-3">
+                    <label class="form-label" for="cookie-key">Ключ</label>
+                    <input class="form-control" id="cookie-key" name="key" maxlength="40" pattern="[A-Za-z0-9_-]{1,40}" aria-describedby="cookie-key-help" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="cookie-value">Значення</label>
+                    <input class="form-control" id="cookie-value" name="value" maxlength="512">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="cookie-age">Термін дії (секунди)</label>
+                    <input class="form-control" id="cookie-age" name="max_age" type="number" min="1" max="31536000" step="1" value="3600" required>
+                </div>
+                <button class="btn btn-primary" type="submit">Додати cookie</button>
+            </form>
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="form-card h-100" aria-labelledby="delete-cookie-title">
+            <h2 id="delete-cookie-title">Видалити cookie</h2>
+            <form method="post" action="{{ url_for('users.delete_cookie') }}">
+                <div class="mb-3">
+                    <label class="form-label" for="delete-key">Ключ для видалення</label>
+                    <input class="form-control" id="delete-key" name="key" maxlength="45" required aria-describedby="delete-help">
+                </div>
+                <p class="muted" id="delete-help">Вкажіть ключ із таблиці або без префікса lab4_. Видалення session завершує вхід.</p>
+                <button class="btn btn-outline-danger" type="submit">Видалити за ключем</button>
+            </form>
+            <hr class="my-4">
+            <h3>Очистити cookies застосунку</h3>
+            <p class="muted">Буде видалено cookies lab4_ та сесію. Ви вийдете з профілю. Сторонні cookies залишаться.</p>
+            <form method="post" action="{{ url_for('users.delete_all_cookies') }}">
+                <button class="btn btn-outline-danger" type="submit">Видалити всі cookies застосунку</button>
+            </form>
+        </section>
+    </div>
+</div>
+
+<section class="form-card" aria-labelledby="cookies-title">
+    <h2 id="cookies-title">Поточні cookies</h2>
+    <p class="muted">Cookies, які браузер надіслав із цим запитом.</p>
+    <div class="table-responsive">
+        <table class="table table-striped cookie-table">
+            <thead><tr><th scope="col">Ключ</th><th scope="col">Значення</th></tr></thead>
+            <tbody>
+                {% for key, value in request.cookies.items() %}
+                <tr><th scope="row">{{ key }}</th><td>{{ value }}</td></tr>
+                {% else %}
+                <tr><td colspan="2">Cookies відсутні.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

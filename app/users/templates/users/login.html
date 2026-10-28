@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if notice %}
+<div class="alert alert-success" role="alert">{{ notice }}</div>
+{% endif %}
 <div class="page-intro">
     <p class="eyebrow">Особиста сторінка · Користувачі</p>
     <h1>{{ title }}</h1>

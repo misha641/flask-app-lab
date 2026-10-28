@@ -49,7 +49,7 @@ a:focus-visible, button:focus-visible {
     color: white;
     font-weight: 700;
 }
-.page-links { justify-content: flex-end; font-weight: 650; }
+.page-links { justify-content: flex-end; flex-wrap: wrap; font-weight: 650; }
 .section-links { gap: 0.4rem; font-size: 0.9rem; }
 .navbar .nav-link { color: var(--muted); }
 .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--accent); }
@@ -125,6 +125,34 @@ h3 { margin-bottom: 0.8rem; font-size: 1.2rem; font-weight: 600; line-height: 1.
 .form-control { padding: 0.8rem; border-color: #abbab0; border-radius: 0.5rem; }
 .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 0.2rem rgb(25 84 72 / 15%); }
 textarea.form-control { resize: vertical; min-height: 9rem; }
+
+.cookie-table { table-layout: fixed; margin-bottom: 0; }
+.cookie-table th, .cookie-table td { overflow-wrap: anywhere; vertical-align: top; }
+.cookie-table th:first-child { width: 30%; }
+.profile-page .btn[aria-pressed="true"] { border-width: 2px; font-weight: 700; }
+.profile-dark {
+    --page-bg: #17241e;
+    --ink: #eaf2ed;
+    --muted: #bed0c4;
+    --accent: #98d8bb;
+    --line: #42584b;
+    color-scheme: dark;
+}
+.profile-dark .site-header, .profile-dark .form-card { background: #21342a; }
+.profile-dark a, .profile-dark a:hover { color: var(--accent); }
+.profile-dark .brand-mark { background: #98d8bb; color: #17241e; }
+.profile-dark .form-control { background: #17241e; color: var(--ink); border-color: #829c8b; }
+.profile-dark .btn-primary {
+    --bs-btn-color: #17241e;
+    --bs-btn-hover-bg: #b9ebd3;
+    --bs-btn-hover-border-color: #b9ebd3;
+    --bs-btn-hover-color: #17241e;
+    --bs-btn-active-bg: #b9ebd3;
+    --bs-btn-active-color: #17241e;
+}
+.profile-dark .btn-outline-secondary { --bs-btn-color: #d2e2d8; --bs-btn-border-color: #829c8b; }
+.profile-dark .btn-outline-danger { --bs-btn-color: #ffb8bf; --bs-btn-border-color: #eb9099; }
+.profile-dark .skip-link { background: #21342a; }
 
 .site-footer { border-top: 1px solid var(--line); }
 .footer-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; padding-bottom: 1.5rem; color: var(--muted); font-size: 0.85rem; }
