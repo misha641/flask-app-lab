@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-intro">
+    <p class="eyebrow">Особиста сторінка · Користувачі</p>
+    <h1>{{ title }}</h1>
+    <p class="intro-description">Вітаю, <strong>{{ session['username'] }}</strong>!</p>
+    <form method="post" action="{{ url_for('users.logout') }}">
+        <button class="btn btn-outline-danger" type="submit">Вийти</button>
+    </form>
+</div>
+{% endblock %}

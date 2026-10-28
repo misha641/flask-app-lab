@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 .env
 lab3.pdf
+lab4.pdf
+screenshots/lab4/
+.playwright-mcp/
+tmp/

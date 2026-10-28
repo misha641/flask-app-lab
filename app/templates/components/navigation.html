@@ -25,12 +25,20 @@
                            href="{{ url_for('contacts') }}"{% if request.endpoint == 'contacts' %} aria-current="page"{% endif %}>Контакти</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{% if request.blueprint == 'users' %} active{% endif %}"
-                           href="{{ url_for('users.greetings', name='John', age=30) }}"{% if request.blueprint == 'users' %} aria-current="page"{% endif %}>Привітання</a>
+                        <a class="nav-link{% if request.endpoint == 'users.greetings' %} active{% endif %}"
+                           href="{{ url_for('users.greetings', name='John', age=30) }}"{% if request.endpoint == 'users.greetings' %} aria-current="page"{% endif %}>Привітання</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{% if request.blueprint == 'products' %} active{% endif %}"
                            href="{{ url_for('products.index') }}"{% if request.blueprint == 'products' %} aria-current="page"{% endif %}>Товари</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'users.profile' %} active{% endif %}"
+                           href="{{ url_for('users.profile') }}"{% if request.endpoint == 'users.profile' %} aria-current="page"{% endif %}>Профіль</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'users.login' %} active{% endif %}"
+                           href="{{ url_for('users.login') }}"{% if request.endpoint == 'users.login' %} aria-current="page"{% endif %}>Вхід</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav section-links" aria-label="Секції резюме">
