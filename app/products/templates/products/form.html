@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% from 'components/form_fields.html' import render_field %}
+{% block content %}
+<div class="page-intro"><p class="eyebrow">Каталог · Керування товарами</p><h1>{{ title }}</h1></div>
+<form class="form-card" method="post" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.content) }}
+    <div class="row">
+        <div class="col-md-4">{{ render_field(form.price, min='0.01', max='999999999.99', step='0.01') }}</div>
+        <div class="col-md-4">{{ render_field(form.category) }}</div>
+        <div class="col-md-4">{{ render_field(form.quantity, min=0, step=1) }}</div>
+    </div>
+    {{ render_field(form.image, accept='.png,.jpg,.jpeg') }}
+    {% if product %}
+    <p class="muted">Залиште поле зображення порожнім, щоб зберегти попереднє.</p>
+    {% include 'products/image.html' %}
+    {% endif %}
+    {{ form.submit(class_='btn btn-primary') }}
+    <a class="btn btn-outline-secondary ms-2" href="{{ url_for('products.index') }}">Скасувати</a>
+</form>
+{% endblock %}

@@ -39,3 +39,25 @@ def list_products():
 def get_product(product_id):
     with open_database() as db:
         return db.table('products').get(Query().id == product_id)
+
+
+def create_product(values):
+    with open_database() as db:
+        metadata = db.table('metadata')
+        product_id = metadata.get(doc_id=1)['next_id']
+        metadata.update({'next_id': product_id + 1}, doc_ids=[1])
+        db.table('products').insert({
+            **values, 'id': product_id,
+            'created_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+        })
+        return product_id
+
+
+def update_product(product_id, values):
+    with open_database() as db:
+        db.table('products').update(values, Query().id == product_id)
+
+
+def delete_product(product_id):
+    with open_database() as db:
+        db.table('products').remove(Query().id == product_id)

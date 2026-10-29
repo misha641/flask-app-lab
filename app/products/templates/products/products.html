@@ -5,6 +5,7 @@
     <p class="eyebrow">Особиста сторінка · Каталог</p>
     <h1>{{ title }}</h1>
     <p class="intro-description">Оберіть товар, щоб переглянути його характеристики.</p>
+    <a class="btn btn-primary" href="{{ url_for('products.add') }}">Додати товар</a>
 </div>
 <div class="row g-4">
     {% for product in products %}
