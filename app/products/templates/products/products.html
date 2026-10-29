@@ -10,13 +10,19 @@
     {% for product in products %}
     <div class="col-md-6 col-lg-4">
         <article class="project-card product-card">
+            {% include 'products/image.html' %}
             <p class="eyebrow">Товар №{{ product.id }}</p>
             <h2><a href="{{ url_for('products.detail', product_id=product.id) }}">{{ product.name }}</a></h2>
             <p>{{ product.content }}</p>
             <p class="product-price">Ціна: {{ product.price }}</p>
+            <p class="mb-1">Категорія: {{ categories.get(product.category, product.category) }}</p>
+            <p class="mb-1">Кількість: {{ product.quantity }}</p>
+            <p class="muted small">Додано: <time datetime="{{ product.created_at }}">{{ product.created_at }}</time></p>
             <a class="text-link" href="{{ url_for('products.detail', product_id=product.id) }}">Детальніше про {{ product.name }} <span aria-hidden="true">↗</span></a>
         </article>
     </div>
+    {% else %}
+    <p>Товарів поки немає.</p>
     {% endfor %}
 </div>
 {% endblock %}

@@ -6,9 +6,13 @@
     <h1>{{ product.name }}</h1>
 </div>
 <article class="project-card">
+    {% include 'products/image.html' %}
     <h2>Опис товару</h2>
     <p>{{ product.content }}</p>
     <p class="product-price">Ціна: {{ product.price }}</p>
+    <p>Категорія: {{ categories.get(product.category, product.category) }}</p>
+    <p>Кількість: {{ product.quantity }}</p>
+    <p class="muted">Додано: <time datetime="{{ product.created_at }}">{{ product.created_at }}</time></p>
     <a class="text-link" href="{{ url_for('products.index') }}">Усі товари <span aria-hidden="true">↗</span></a>
 </article>
 {% endblock %}

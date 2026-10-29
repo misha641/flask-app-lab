@@ -1,0 +1,6 @@
+{% if product.image %}
+<img class="product-image" src="{{ url_for('products.uploaded_image', filename=product.image.removeprefix('uploads/')) }}" alt="{{ product.name }}"
+     onerror="this.onerror=null;this.src='{{ url_for('products.static', filename='product-placeholder.svg') }}'">
+{% else %}
+<img class="product-image" src="{{ url_for('products.static', filename='product-placeholder.svg') }}" alt="Зображення товару відсутнє">
+{% endif %}
