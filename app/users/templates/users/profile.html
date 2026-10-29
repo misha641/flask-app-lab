@@ -8,6 +8,7 @@
     <h1>{{ title }}</h1>
     <p class="intro-description">Вітаю, <strong>{{ session['username'] }}</strong>!</p>
     <form method="post" action="{{ url_for('users.logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="btn btn-outline-danger" type="submit">Вийти</button>
     </form>
 </div>
@@ -15,6 +16,7 @@
 <section class="form-card mb-4" aria-labelledby="theme-title">
     <h2 id="theme-title">Тема профілю</h2>
     <form class="d-flex flex-wrap gap-2" method="post" action="{{ url_for('users.change_theme') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="btn btn-outline-secondary" name="theme" value="light" aria-pressed="{{ 'true' if theme == 'light' else 'false' }}">Світла</button>
         <button class="btn btn-outline-secondary" name="theme" value="dark" aria-pressed="{{ 'true' if theme == 'dark' else 'false' }}">Темна</button>
     </form>
@@ -26,6 +28,7 @@
             <h2 id="add-cookie-title">Додати cookie</h2>
             <p class="muted" id="cookie-key-help">До ключа додається префікс lab4_: наприклад, note → lab4_note. Дозволено 1–40 латинських літер, цифр, дефісів і підкреслень. Сесія та тема захищені від перезапису.</p>
             <form method="post" action="{{ url_for('users.add_cookie') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="mb-3">
                     <label class="form-label" for="cookie-key">Ключ</label>
                     <input class="form-control" id="cookie-key" name="key" maxlength="40" pattern="[A-Za-z0-9_-]{1,40}" aria-describedby="cookie-key-help" required>
@@ -46,6 +49,7 @@
         <section class="form-card h-100" aria-labelledby="delete-cookie-title">
             <h2 id="delete-cookie-title">Видалити cookie</h2>
             <form method="post" action="{{ url_for('users.delete_cookie') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="mb-3">
                     <label class="form-label" for="delete-key">Ключ для видалення</label>
                     <input class="form-control" id="delete-key" name="key" maxlength="45" required aria-describedby="delete-help">
@@ -57,6 +61,7 @@
             <h3>Очистити cookies застосунку</h3>
             <p class="muted">Буде видалено cookies lab4_ та сесію. Ви вийдете з профілю. Сторонні cookies залишаться.</p>
             <form method="post" action="{{ url_for('users.delete_all_cookies') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-outline-danger" type="submit">Видалити всі cookies застосунку</button>
             </form>
         </section>

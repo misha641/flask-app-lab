@@ -12,6 +12,7 @@
 <div class="row">
     <div class="col-md-8 col-lg-6">
         <form class="form-card" method="post" action="{{ url_for('users.login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-3">
                 <label class="form-label" for="username">Ім’я користувача</label>
                 <input class="form-control" id="username" name="username" autocomplete="username" required>

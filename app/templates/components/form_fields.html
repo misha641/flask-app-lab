@@ -1,0 +1,9 @@
+{% macro render_field(field) %}
+<div class="mb-3">
+    {{ field.label(class_='form-label') }}
+    {{ field(class_=('form-select' if field.type == 'SelectField' else 'form-control') ~ (' is-invalid' if field.errors else ''), aria_describedby=field.id ~ '-errors', **kwargs) }}
+    <div id="{{ field.id }}-errors"{% if field.errors %} class="invalid-feedback"{% endif %}>
+        {% for error in field.errors %}<div>{{ error }}</div>{% endfor %}
+    </div>
+</div>
+{% endmacro %}
