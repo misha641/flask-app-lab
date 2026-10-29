@@ -3,6 +3,7 @@ from html import unescape
 from html.parser import HTMLParser
 
 from app import app
+from support import IsolatedAppTestCase
 
 
 class ProductParser(HTMLParser):
@@ -20,12 +21,7 @@ class ProductParser(HTMLParser):
             self.links.append(attrs.get('href'))
 
 
-class ProductBlueprintTests(unittest.TestCase):
-    def setUp(self):
-        previous_testing = app.config['TESTING']
-        app.config['TESTING'] = True
-        self.addCleanup(app.config.update, TESTING=previous_testing)
-        self.client = app.test_client()
+class ProductBlueprintTests(IsolatedAppTestCase):
 
     def test_product_list(self):
         response = self.client.get('/products/')

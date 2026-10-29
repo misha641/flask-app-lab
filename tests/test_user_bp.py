@@ -1,14 +1,10 @@
 import unittest
 
 from app import app
+from support import IsolatedAppTestCase
 
 
-class UserBlueprintTests(unittest.TestCase):
-    def setUp(self):
-        previous_testing = app.config['TESTING']
-        app.config['TESTING'] = True
-        self.addCleanup(app.config.update, TESTING=previous_testing)
-        self.client = app.test_client()
+class UserBlueprintTests(IsolatedAppTestCase):
 
     def test_greetings_page(self):
         response = self.client.get('/users/hi/John?age=30')

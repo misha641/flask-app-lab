@@ -7,6 +7,7 @@ from xml.etree import ElementTree
 from flask import Flask
 
 from app import app
+from support import IsolatedAppTestCase
 
 
 class PageParser(HTMLParser):
@@ -22,12 +23,7 @@ class PageParser(HTMLParser):
         return [attrs for name, attrs in self.tags if name == tag]
 
 
-class AppTests(unittest.TestCase):
-    def setUp(self):
-        previous_testing = app.config['TESTING']
-        app.config['TESTING'] = True
-        self.addCleanup(app.config.update, TESTING=previous_testing)
-        self.client = app.test_client()
+class AppTests(IsolatedAppTestCase):
 
     def test_pages_and_shared_layout(self):
         for path, title in [('/', 'Резюме'), ('/contacts', 'Контакти'), ('/homepage', 'Головна')]:
@@ -72,28 +68,31 @@ class AppTests(unittest.TestCase):
             self.assertIn('/static/css/styles.css', self.client.get(path).get_data(as_text=True))
         self.assertIn('/static/images/avatar.svg', self.client.get('/').get_data(as_text=True))
 
-    def test_form_does_not_send_entered_values(self):
+    def test_contact_form_fields_labels_and_csrf(self):
         page = PageParser(self.client.get('/contacts').get_data(as_text=True))
         form, = page.elements('form')
         self.assertEqual(form['action'], '/contacts')
         self.assertEqual(form['method'], 'post')
         self.assertIn('novalidate', form)
-        fields = page.elements('input') + page.elements('textarea')
-        self.assertEqual({field['id'] for field in fields}, {'contact-name', 'contact-email', 'contact-message'})
+        fields = [field for field in page.elements('input') if field.get('type') not in ('hidden', 'submit')]
+        fields += page.elements('textarea') + page.elements('select')
+        self.assertEqual({field['id'] for field in fields}, {'name', 'email', 'phone', 'subject', 'message'})
         labels = {label['for'] for label in page.elements('label')}
         self.assertEqual(labels, {field['id'] for field in fields})
-        self.assertTrue(all('name' not in field for field in fields))
+        self.assertTrue(all('name' in field for field in fields))
+        self.assertTrue(any(field.get('name') == 'csrf_token' for field in page.elements('input')))
 
-    def test_form_stub_accepts_empty_and_populated_post(self):
+    def test_contact_form_rejects_empty_and_invalid_post(self):
         for data in [{}, {'name': 'TEST_FORM_VALUE', 'email': 'test@example.invalid', 'message': 'TEST_MESSAGE_VALUE'}]:
             with self.subTest(data=data):
                 response = self.client.post('/contacts', data=data)
                 self.assertEqual(response.status_code, 200)
                 html = response.get_data(as_text=True)
-                self.assertIn('role="status"', html)
-                self.assertIn('Надсилання поки не реалізоване. Повідомлення не надіслано, дані не збережено.', html)
+                self.assertIn('is-invalid', html)
+                self.assertIn('Перевірте позначені поля форми.', html)
+                self.assertFalse(app.config['CONTACT_LOG'].exists())
                 for value in data.values():
-                    self.assertNotIn(value, html)
+                    self.assertIn(value, html)
 
     def test_wsgi_app_and_mobile_menu_wiring(self):
         self.assertIsInstance(app, Flask)

@@ -54,11 +54,11 @@ def login():
             return redirect(url_for('users.profile'))
         flash('Неправильне ім’я користувача або пароль.', 'danger')
         return redirect(url_for('users.login'))
-    # Після видалення сесії flash створив би нову session-cookie.
-    # Тому ці два повідомлення беремо з фіксованого списку, без flash.
+    # Повідомлення після очищення беремо з фіксованого списку.
+    # Форма входу створить нову анонімну сесію лише для CSRF.
     notices = {
-        'cookies-cleared': 'Cookies цього застосунку видалено. Вхід завершено; сторонні cookies залишено.',
-        'session-cleared': 'Cookie сесії видалено. Вхід завершено.',
+        'cookies-cleared': 'Попередні cookies цього застосунку видалено. Вхід завершено; сторонні cookies залишено. Форма входу створила нову анонімну сесію для CSRF.',
+        'session-cleared': 'Cookie сесії видалено. Вхід завершено. Форма входу створила нову анонімну сесію для CSRF.',
     }
     return render_template(
         'users/login.html', title='Вхід', notice=notices.get(request.args.get('notice')),

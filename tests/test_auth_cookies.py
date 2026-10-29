@@ -6,14 +6,10 @@ from email.utils import parsedate_to_datetime
 from http.cookies import SimpleCookie
 
 from app import app
+from support import IsolatedAppTestCase
 
 
-class ClientTestCase(unittest.TestCase):
-    def setUp(self):
-        previous = {key: app.config[key] for key in ('TESTING', 'SECRET_KEY', 'SESSION_COOKIE_NAME')}
-        app.config.update(TESTING=True, SECRET_KEY='test-only-key-not-for-server')
-        self.addCleanup(app.config.update, previous)
-        self.client = app.test_client()
+class ClientTestCase(IsolatedAppTestCase):
 
     def login(self, **kwargs):
         return self.client.post('/users/login', data={'username': 'misha', 'password': 'lab4pass'}, **kwargs)
@@ -211,13 +207,15 @@ class CookieTests(ClientTestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertIn(message, response.get_data(as_text=True))
 
-    def test_delete_session_logs_out_without_new_session_cookie(self):
+    def test_delete_session_logs_out_and_login_form_gets_anonymous_csrf_session(self):
         self.add_cookie()
         response = self.client.post('/users/cookies/delete', data={'key': 'session'}, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.request.path, '/users/login')
         self.assertIn('Cookie сесії видалено.', response.get_data(as_text=True))
-        self.assertIsNone(self.client.get_cookie('session'))
+        with self.client.session_transaction() as session:
+            self.assertNotIn('username', session)
+            self.assertIn('csrf_token', session)
         self.assertIsNotNone(self.client.get_cookie('lab4_note'))
         self.assertEqual(self.client.get('/users/profile').location, '/users/login')
 
@@ -229,8 +227,10 @@ class CookieTests(ClientTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.request.path, '/users/login')
         self.assertIn('сторонні cookies залишено', response.get_data(as_text=True))
-        for key in ['session', 'lab4_note', 'lab4_theme']:
+        for key in ['lab4_note', 'lab4_theme']:
             self.assertIsNone(self.client.get_cookie(key))
+        with self.client.session_transaction() as session:
+            self.assertNotIn('username', session)
         self.assertEqual(self.client.get_cookie('other_app').value, 'keep')
         self.assertEqual(self.client.get('/users/profile').location, '/users/login')
 

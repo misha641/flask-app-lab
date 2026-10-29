@@ -5,7 +5,7 @@ import warnings
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileSize
 from PIL import Image, UnidentifiedImageError
-from wtforms import DecimalField, IntegerField, SelectField, StringField, SubmitField, TextAreaField
+from wtforms import DecimalField, IntegerField, SelectField, SelectChoice, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, InputRequired, Length, NumberRange, Optional, ValidationError
 
 from .storage import CATEGORIES
@@ -17,7 +17,7 @@ class ProductForm(FlaskForm):
     ])
     content = TextAreaField('Опис', validators=[Optional(), Length(max=5000)], render_kw={'rows': 5, 'cols': 40})
     price = DecimalField('Ціна', places=2, validators=[InputRequired(message='Вкажіть ціну.')])
-    category = SelectField('Категорія', choices=CATEGORIES)
+    category = SelectField('Категорія', choices=[SelectChoice(value, label) for value, label in CATEGORIES])
     quantity = IntegerField('Кількість', validators=[
         InputRequired(message='Вкажіть кількість.'), NumberRange(min=0, message='Кількість не може бути від’ємною.'),
     ])
